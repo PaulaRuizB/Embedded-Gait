@@ -19,7 +19,7 @@ Models folder:
 * 3D-CNN: model_3D_150.hdf5
 * GaitSet: model-state-1300.hdf5 
 
-### Optimize models with TensorRT
+### Optimize models with TensorRT (quantization and batch size)
 Folder scripts
 
     trt_conversion.sh
