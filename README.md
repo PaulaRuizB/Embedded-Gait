@@ -16,6 +16,7 @@ Models folder:
 
 ### Optimize models with TensorRT
 Folder scripts
+
    trt_conversion.sh
 
 ### Our [paper](https://www.sciencedirect.com/science/article/pii/S2210537922001457)
