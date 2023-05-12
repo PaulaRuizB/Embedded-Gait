@@ -2,7 +2,12 @@
  Efficient implementation of gait recognition models on embedded systems
  
 ### Prerequisites
-What you need to use the codes 
+1. Clone this repository with git
+
+ git clone https://github.com/PaulaRuizB/Embedded-Gait
+ 
+2. What you need to use the codes 
+
 * 2D-CNN and 3D-CNN: 
 Python 3.6.8 and requirements TUM_requirements.txt into venv_requirements folder.
 * GaitSet:
