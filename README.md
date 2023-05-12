@@ -14,6 +14,9 @@ Models folder:
 * 3D-CNN: model_3D_150.hdf5
 * GaitSet: model-state-1300.hdf5 
 
+### Optimize models with TensorRT
+Folder scripts
+   trt_conversion.sh
 
 ### Our [paper](https://www.sciencedirect.com/science/article/pii/S2210537922001457)
 
