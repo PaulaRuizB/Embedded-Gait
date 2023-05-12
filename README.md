@@ -15,7 +15,7 @@ Models folder:
 * GaitSet: model-state-1300.hdf5 
 
 
-**cite** implementation for our [paper]([https://arxiv.org/abs/1711.08389](https://www.sciencedirect.com/science/article/pii/S2210537922001457)).  If you find this code useful in your research, please consider citing:
+**cite** implementation for our [paper]([[https://arxiv.org/abs/1711.08389](https://www.sciencedirect.com/science/article/pii/S2210537922001457)]).  If you find this code useful in your research, please consider citing:
 
  @article{ruiz2022high,
    title={High performance inference of gait recognition models on embedded systems},
