@@ -15,7 +15,7 @@ Models folder:
 * GaitSet: model-state-1300.hdf5 
 
 
-### Our [paper](https://www.sciencedirect.com/science/article/pii/S2210537922001457).  
+### Our [paper](https://www.sciencedirect.com/science/article/pii/S2210537922001457)
 
 If you find this code useful in your research, please consider citing:
 
