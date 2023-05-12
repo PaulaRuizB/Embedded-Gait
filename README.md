@@ -3,9 +3,9 @@
  
 ### Prerequisites
 1. Clone this repository with git
-
- git clone https://github.com/PaulaRuizB/Embedded-Gait
- 
+```
+git clone https://github.com/PaulaRuizB/Embedded-Gait
+```
 2. What you need to use the codes 
 
 * 2D-CNN and 3D-CNN: 
