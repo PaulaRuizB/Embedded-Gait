@@ -69,6 +69,14 @@ Important: modify desired percentil value in code gaitset_filters_percentil.py
 Fine-tuning (mains folder):
 * 2D-CNN and 3D-CNN: train_singlenet.py
 
+2D-CNN:
+
+    python ../mains/train_singlenet.py --model_version bmvc --experdir /home/pruiz/experiments_gait_multimodal/ --prefix ft_pruning_10 --nclasses 150 --epochs 25 --extraepochs 5 --initnet /home/pruiz/experiments_gait_multimodal/of_baseline_bmvc_N150_datagen_of_opSGD_bs150_lr0.010000_dr0.40/model_without_132_filters_10_27.85.h5 --ftpruning --nofreeze
+
+3D-CNN:
+
+    python ../mains/train_singlenet.py --model_version bmvc --experdir /home/pruiz/experiments_gait_multimodal/ --use3d --prefix ft_pruning_10_bueno --nclasses 150 --epochs 100 --extraepochs 10 --initnet /home/pruiz/experiments_gait_multimodal/of_baseline_bmvc_N150_datagen_of3D_opSGD_bs150_lr0.010000_dr0.40/model_without_198_filters_10_28.22.h5 --ftpruning --nofreeze
+
 ### Our [paper](https://www.sciencedirect.com/science/article/pii/S2210537922001457)
 
 If you find this code useful in your research, please consider citing:
