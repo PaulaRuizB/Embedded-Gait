@@ -44,7 +44,7 @@ Important: modify desired percentil value in code train_singlenet_percentil.py
   
 3D-CNN: 
 
-    python ../mains/test_singlenet_knn.py --use3d --nclasses 16 --knn 7 --model /home/pruiz/experiments_gait_multimodal/of_baseline_bmvc_N150_datagen_of3D_opSGD_bs150_lr0.010000_dr0.40/model_without_49_filters.h5
+    python ../mains/train_singlenet_percentil.py --model_version bmvc --experdir /home/pruiz/experiments_gait_multimodal/ --prefix of_baseline --nclasses 150 --use3d --epochs 1 --extraepochs 50 --pstruc
 
 * GaitSet: gaitset_filters_percentil.py
 
