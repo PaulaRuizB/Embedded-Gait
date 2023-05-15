@@ -20,14 +20,17 @@ Models folder:
 * GaitSet: model-state-1300.hdf5 
 
 ### Hardware optimizations: quantization and batch size. Optimize models with TensorRT.
-Folder scripts:
+Scripts folder :
 
     trt_conversion.sh
     
 ### Software optimizations: filter pruning. 
-Folder mains:
+Remove filters (mains folder):
 * 2D-CNN and 3D-CNN: train_singlenet_percentil.py
 * GaitSet: gaitset_filters_percentil.py
+
+Fine-tuning (mains folder):
+* 2D-CNN and 3D-CNN: train_singlenet.py
 
 ### Our [paper](https://www.sciencedirect.com/science/article/pii/S2210537922001457)
 
