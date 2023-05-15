@@ -27,6 +27,15 @@ Models folder:
 
       python ../mains/train_singlenet.py --model_version bmvc --experdir /home/pruiz/experiments_gait_multimodal/ --prefix of_baseline --nclasses 150 --use3d --epochs 150 --extraepochs 50
 
+### Test Models KNN:
+* 2D-CNN: 
+
+      python ../mains/test_singlenet_knn.py --nclasses 155 --knn 7 --model /home/pruiz/experiments_gait_multimodal/of_baseline_bmvc_N150_datagen_of_opSGD_bs150_lr0.010000_dr0.40/model-final.hdf5
+
+* 3D-CNN:
+    
+      python ../mains/test_singlenet_knn.py --use3d --nclasses 155 --knn 7 --model /home/pruiz/experiments_gait_multimodal/of_baseline_bmvc_N150_datagen_of3D_opSGD_bs150_lr0.010000_dr0.40/model-final.hdf5
+
 ### Hardware optimizations: quantization and batch size. Optimize models with TensorRT.
 Scripts folder :
 
