@@ -25,7 +25,7 @@ Models folder:
 
 * 3D-CNN:
 
-    python ../mains/train_singlenet.py --model_version bmvc --experdir /home/pruiz/experiments_gait_multimodal/ --prefix of_baseline --nclasses 150 --use3d --epochs 150 --extraepochs 50
+      python ../mains/train_singlenet.py --model_version bmvc --experdir /home/pruiz/experiments_gait_multimodal/ --prefix of_baseline --nclasses 150 --use3d --epochs 150 --extraepochs 50
 
 ### Hardware optimizations: quantization and batch size. Optimize models with TensorRT.
 Scripts folder :
