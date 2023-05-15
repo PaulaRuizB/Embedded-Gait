@@ -29,7 +29,7 @@ Models folder:
 
 ### Test Models KNN:
 
-Note: to measure accuracy comment EnergyMeter in encodeData function and and set nbatches=len(data_generator)
+Note: to measure accuracy comment EnergyMeter in encodeData function and set nbatches=len(data_generator)
 
 * 2D-CNN: 
 
