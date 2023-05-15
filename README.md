@@ -18,6 +18,12 @@ Models folder:
 * 2D-CNN: model_2D_150.hdf5
 * 3D-CNN: model_3D_150.hdf5
 * GaitSet: model-state-1300.hdf5 
+### Train Models:
+* 2D-CNN: 
+    python ../mains/train_singlenet.py --model_version bmvc --experdir /home/pruiz/experiments_gait_multimodal/ --prefix prueba --nclasses 150 --epochs 150 --extraepochs 50
+
+* 3D-CNN:
+    python ../mains/train_singlenet.py --model_version bmvc --experdir /home/pruiz/experiments_gait_multimodal/ --prefix of_baseline --nclasses 150 --use3d --epochs 150 --extraepochs 50
 
 ### Hardware optimizations: quantization and batch size. Optimize models with TensorRT.
 Scripts folder :
