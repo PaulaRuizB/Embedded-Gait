@@ -408,7 +408,7 @@ def trainGaitNet(datadir="matimdbtum_gaid_N150_of25_60x60_lite", experfix="of",
 				del train_generator
 
 				train_generator = DataGeneratorGait(dataset_info, batch_size=150, mode='trainval', labmap=labmap, modality=modality,
-													datadir=data_folder, camera=cameras)
+													datadir=data_folder, camera=camera, use3D=use3D)
 
 				ft_epochs = last_epoch + extra_epochs  # DEVELOP!
 

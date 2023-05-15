@@ -3,6 +3,7 @@
 
 import sys
 import os
+from os.path import expanduser
 
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 import numpy as np
@@ -16,6 +17,7 @@ if sys.version_info[1] >= 6:
 else:
 	sys.path.insert(0, str(maindir) + "/..")
 # --------------------------------
+homedir = expanduser("~")
 
 theSEED = 232323
 tf.random.set_seed(theSEED)

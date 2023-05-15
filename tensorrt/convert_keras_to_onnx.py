@@ -1,5 +1,4 @@
 from tensorflow.python.keras import backend as K
-from tensorflow.keras.models import load_model
 import tensorflow as tf
 import argparse
 import os
@@ -23,8 +22,8 @@ class MatMul(tf.keras.layers.Layer):
 
         # Create a trainable weight variable for this layer.
         w_init = tf.keras.initializers.GlorotUniform()
-        self.kernel = tf.Variable(name="MatMul_kernel" + str(np.random.randint(100, size=1)[0]),
-                                  initial_value=w_init(shape=(bin_num, 128, hidden_dim), dtype="float32"),
+        self.kernel = tf.Variable(name="MatMul_kernel" + str(np.random.randint(100, size=1)[0]), ##[0]
+                                  initial_value=w_init(shape=(bin_num*2, 128, hidden_dim), dtype="float32"),
                                   trainable=True)
 
     def call(self, x):
@@ -62,7 +61,7 @@ if __name__ == '__main__':
         model = tf.keras.applications.xception.Xception(include_top=False, weights='imagenet', pooling='avg')
     else:
         model = tf.keras.models.load_model(model_path_gait,
-                                           custom_objects={'mj_smoothL1': mj_smoothL1, 'MatMul': MatMul, 'tf': tf},
+                                           custom_objects={'mj_smoothL1': mj_smoothL1, 'MatMul': MatMul(), 'tf': tf},
                                            compile=False)  #
         if name_model == '':
             head_path, name_model = os.path.split(model_path_gait)
