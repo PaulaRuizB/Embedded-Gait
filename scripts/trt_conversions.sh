@@ -7,6 +7,7 @@ python3 convert_keras_to_onnx.py --model_path_gait /home/pruiz/Embedded-Gait-mai
 python -m tf2onnx.convert --saved-model '/home/pruiz/prueba_chema/model_2D_150' --output '/home/pruiz/prueba_chema/model_2D_150.onnx' --opset 13
 
 #Quantization
+#From ONNX model to TensorRT engine + inference process.
 
 #FP32
 /usr/src/tensorrt/bin/trtexec --onnx=/home/pruiz/pruebas_chema/model_2D_150.onnx --saveEngine=/home/pruiz/pruebas_chema/model_2D_150_batch1_fp32.trt

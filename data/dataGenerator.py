@@ -4,9 +4,6 @@ Based on the following example:
 (c) MJMJ/2020
 '''
 
-__author__ = 'Manuel J Marin-Jimenez'
-__copyright__ = 'March 2020'
-
 import os
 import numpy as np
 import deepdish as dd

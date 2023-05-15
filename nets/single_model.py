@@ -1,12 +1,6 @@
 import tensorflow as tf
-#import tensorflow_addons as tfa
 import deepdish as dd
 import os
-#from nets.triplet_crossentropy_loss import TripletSemiHardCrossentropyLoss, TripletBatchAllCrossentropyLoss, TripletHardCrossentropyLoss
-#from nets.triplet_loss_all import TripletBatchAllLoss
-#from tensorflow_model_optimization.python.core.sparsity.keras import pruning_schedule
-#from tensorflow_model_optimization.python.core.sparsity.keras import prune
-#from tensorflow_model_optimization.python.core.sparsity.keras.pruning_wrapper import PruneLowMagnitude
 
 class SingleGaitModel():
 	def __init__(self, experdir, iters_per_update=0):

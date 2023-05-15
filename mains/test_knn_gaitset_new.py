@@ -1,9 +1,3 @@
-# Tests a gait recognizer CNN
-# This version uses a custom DataGenerator
-
-__author__ = 'Manuel J Marin-Jimenez'
-__copyright__ = 'April 2020'
-
 import os
 import sys
 
@@ -12,7 +6,6 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 import numpy as np
 import os.path as osp
 from os.path import expanduser
-from operator import itemgetter
 
 import pathlib
 
@@ -22,18 +15,12 @@ if sys.version_info[1] >= 6:
 else:
     sys.path.insert(0, str(maindir) + "/..")
 homedir = expanduser("~")
-# sys.path.insert(0, homedir + "/gaitmultimodal")
-# sys.path.insert(0, homedir + "/gaitmultimodal/mains")
 
 import deepdish as dd
 from sklearn.metrics import confusion_matrix
-#from nets.gaitset_transformer_V4 import GaitSetTransformer
 from scipy import stats
 from misc.knn import KNN
 from data.dataGeneratorGaitSet_new import DataGeneratorGait
-#from StructuralPrune.structural_prune import strip_pruning
-#from StructuralPrune.structural_pruning_wrapper import StructuralPrune
-#from nets.triplet_loss_all_gaitset import triplet_loss
 from nets.gaitset import MatMul
 
 # --------------------------------
@@ -53,8 +40,6 @@ graph.as_default()
 
 session = tf.compat.v1.Session(graph=graph, config=config)
 session.as_default()
-
-from utils.energy_meter import EnergyMeter
 
 # --------------------------------
 def encodeData(data_generator, model, model_version):

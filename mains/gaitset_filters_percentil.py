@@ -37,77 +37,7 @@ graph.as_default()
 session = tf.compat.v1.Session(graph=graph, config=config)
 session.as_default()
 # --------------------------------
-from tensorflow import keras
-from tensorflow_addons.utils.types import FloatTensorLike, TensorLike
-
 from kerassurgeon.operations import delete_channels, delete_layer, insert_layer, Surgeon
-
-from nets.gaitset_4dims import MatMul
-
-
-def triplet_loss(margin: FloatTensorLike = 1.0, k: TensorLike = 16):
-    @tf.function
-    def loss(y_true: TensorLike, y_pred: TensorLike) -> tf.Tensor:
-        """Computes the triplet loss with semi-hard negative mining.
-
-        Args:
-          y_true: 1-D integer `Tensor` with shape [batch_size] of
-            multiclass integer labels.
-          y_pred: 2-D float `Tensor` of embedding vectors. Embeddings should
-            be l2 normalized.
-          margin: Float, margin term in the loss definition.
-
-        Returns:
-          triplet_loss: float scalar with dtype of y_pred.
-        """
-        labels, embeddings = y_true, y_pred
-
-        convert_to_float32 = (
-                embeddings.dtype == tf.dtypes.float16 or embeddings.dtype == tf.dtypes.bfloat16
-        )
-        precise_embeddings = (
-            tf.cast(embeddings, tf.dtypes.float32) if convert_to_float32 else embeddings
-        )
-
-        # n, m, d = tf.shape(embeddings)
-        _shape = tf.shape(embeddings)
-        n = _shape[0]
-        m = _shape[1]
-        d = _shape[2]
-        # labels = tf.squeeze(labels)
-        # labels = tf.repeat(tf.expand_dims(labels, axis=0), n, axis=0)
-        labels = tf.transpose(labels, [1, 0])
-        labels = tf.repeat(labels, n, axis=0)
-        hp_mask = tf.reshape(tf.expand_dims(labels, axis=1) == tf.expand_dims(labels, axis=2), shape=[-1])
-        hn_mask = tf.reshape(tf.expand_dims(labels, axis=1) != tf.expand_dims(labels, axis=2), shape=[-1])
-
-        dist = batch_dist(embeddings)
-
-        dist = tf.reshape(dist, shape=[-1])
-
-        full_hp_dist = tf.reshape(tf.boolean_mask(dist, hp_mask), [n, m, -1, 1])
-        full_hn_dist = tf.reshape(tf.boolean_mask(dist, hn_mask), [n, m, 1, -1])
-        full_loss_metric = tf.reshape(tf.math.maximum(margin + tf.subtract(full_hp_dist, full_hn_dist), 0.0), [n, -1])
-
-        full_loss_metric_sum = tf.math.reduce_sum(full_loss_metric, axis=1)
-        valid_triplets = tf.cast(tf.greater(full_loss_metric, 0.0), dtype=tf.dtypes.float32)
-        full_loss_num = tf.math.reduce_sum(valid_triplets, axis=1)
-
-        full_loss_metric_mean = full_loss_metric_sum / full_loss_num
-
-        zero = tf.constant(0.0, dtype=tf.float32)
-        where = tf.not_equal(full_loss_num, zero)
-        full_loss_metric_mean = tf.where(where, full_loss_metric_mean, tf.zeros_like(full_loss_metric_mean))
-
-        full_loss_metric_mean = tf.reduce_mean(full_loss_metric_mean, axis=0)
-
-        if convert_to_float32:
-            return tf.cast(full_loss_metric_mean, embeddings.dtype)
-        else:
-            return full_loss_metric_mean
-
-    return loss
-
 
 # ===============================================================
 #################Structural Pruning#################

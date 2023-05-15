@@ -1,7 +1,6 @@
 # Tests a gait recognizer CNN
 # This version uses a custom DataGenerator
 
-
 import os
 import sys
 
@@ -29,7 +28,6 @@ import statistics
 from data.dataGenerator import DataGeneratorGait
 from nets.single_model import SingleGaitModel
 from sklearn.neighbors import KNeighborsClassifier
-from tensorflow.keras import optimizers
 
 # --------------------------------
 import tensorflow as tf
