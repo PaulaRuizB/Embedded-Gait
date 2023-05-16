@@ -18,9 +18,6 @@ else:
 homedir = expanduser("~")
 sys.path.insert(0, homedir + "/gaitmultimodal")
 sys.path.insert(0, homedir + "/gaitmultimodal/mains")
-# sys.path.insert(0, homedir + "/gaitmultimodal/nets")
-
-# --------------------------------
 
 theSEED = 232323
 tf.random.set_seed(theSEED)
@@ -28,7 +25,7 @@ config = tf.compat.v1.ConfigProto()
 
 # Don't pre-allocate memory; allocate as-needed
 config.gpu_options.allow_growth = True
-config.gpu_options.per_process_gpu_memory_fraction = 0.9  # gpu_rate # TODO
+config.gpu_options.per_process_gpu_memory_fraction = 0.9  # gpu_rate
 
 tf.executing_eagerly()
 graph = tf.Graph()
@@ -42,17 +39,12 @@ from kerassurgeon.operations import delete_channels, delete_layer, insert_layer,
 # ===============================================================
 #################Structural Pruning#################
 ####NOTAS:
-# 1. Tener en cuenta el percentil de eliminación de filtros
-# python3 test_knn_gaitset_new.py --datadir=/home/GAIT_local/SSD_grande/CASIAB_tf_pre/ --model_version=gaitset_4dims --reshape_output --mod silhouette --bs 1 --knn 1 --nclasses 50 --allcameras --model /home/pruiz/gaitset_without_filters/model_gaitset_without_83_filters_10_14.95.h5 --cut --nframes=30
-
-
-######Crear modelo nuevo
+# 1. Take into account the percentile to remove filters
+# 2. Test: python3 test_knn_gaitset_new.py --datadir=/path/CASIAB/ --model_version=gaitset_4dims --reshape_output --mod silhouette --bs 1 --knn 1 --nclasses 50 --allcameras --model /path/model_gaitset_without_83_filters_10_14.95.h5 --cut --nframes=30
 
 netpath = "/home/pruiz/model-state-1300.hdf5"
 import tensorflow as tf
-# model = tf.keras.models.load_model(netpath, custom_objects={"MatMul": MatMul, "tf":tf}, compile=False)
 from nets.gaitset_4dims import GaitSet as OurModel
-#from nets.gaitset import GaitSet as OurModel
 encode_layer = "encode"
 model = OurModel("/home/pruiz/")
 input_shape = (None, 64, 44, 1)
@@ -71,9 +63,9 @@ w_list = []
 layer_name = []
 values_total = []
 
-for i in range(len(model.layers)):  # recorre el modelo
+for i in range(len(model.layers)):  # every layer in the model
     if 'keras.layers.Conv3D' in model.layers[i]._keras_api_names[0] or 'keras.layers.Conv2D' in \
-            model.layers[i]._keras_api_names[0]:  # coge las conv
+            model.layers[i]._keras_api_names[0]:  # take convolutional layers
         w = model.layers[i].get_weights()[0]
         w_list.append(w)
         layer_name.append(model.layers[i].name)
@@ -84,7 +76,7 @@ for i in range(len(w_list)):
 
     num_filters = len(weight[0, 0, 0, :])
 
-    # Cálculo norma L1 de cada filtro de peso y se almacena en un diccionario
+    # L1-norm of every filter and save in a dictionary
     for j in range(num_filters):
         w_s = np.sum(abs(weight[:, :, :, j]))
 
@@ -94,29 +86,29 @@ for i in range(len(w_list)):
     values = np.fromiter(weight_dict.values(), dtype=float)
     values_total = np.append(values_total, values)
 
-    # Se muestran los filtros por su valor L1 ascendente
+    # Filters in ascending L1 value
     weights_dict_sort = sorted(weight_dict.items(), key=lambda k: k[1])
     print("L1 norm conv layer {}\n".format(i + 1), weights_dict_sort)
 
 values_total = np.sort(values_total)
-valor_percentil = 50  # TODO
-percentil = np.percentile(values_total, valor_percentil)
+value_percentile = 50  # TODO
+percentile = np.percentile(values_total, value_percentile)
 
 contador = 0
 deleted = 0
 
-for i in range(len(model.layers)):  # recorre sequential
+for i in range(len(model.layers)):  # Sequential model
     if model.layers[i].name in layer_name:
         weight = w_list[contador]
 
         num_filters = len(weight[0, 0, 0, :])
 
-        # Cálculo norma L1 de cada filtro de peso y se almacena en un diccionario
+        # L1-norm of every filter and save in a dictionary
         for j in reversed(range(num_filters)):
 
             w_s = np.sum(abs(weight[:, :, :, j]))
 
-            if w_s < percentil and model.layers[i].output_shape[-1] > 1:
+            if w_s < percentile and model.layers[i].output_shape[-1] > 1:
                 try:
                     model = delete_channels(model, model.layers[i], np.array([j]))
                     deleted = deleted + 1
@@ -125,11 +117,8 @@ for i in range(len(model.layers)):  # recorre sequential
 
         contador = contador + 1
 
-print("{} Filtros eliminados".format(deleted))
-# model_filters.summary()
+print("{} Filters removed".format(deleted))
 
-ruta = '/home/pruiz/gaitset_without_filters/model_gaitset_without_{}_filters_{}_{:.2f}.h5'.format(deleted,
-                                                                                                  valor_percentil,
-                                                                                                  percentil)
-model.save(ruta)
-print("MODELO CON {} MENOS FILTROS GUARDADO".format(deleted))
+save_path = 'path/model_gaitset_without_{}_filters_{}_{:.2f}.h5'.format(deleted, value_percentile, percentile)
+model.save(save_path)
+print("Model with {} less filters saved".format(deleted))

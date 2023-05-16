@@ -1,6 +1,3 @@
-# Tests a gait recognizer CNN
-# This version uses a custom DataGenerator
-
 import os
 import sys
 
@@ -38,7 +35,7 @@ config = tf.compat.v1.ConfigProto()
 
 # Don't pre-allocate memory; allocate as-needed
 config.gpu_options.allow_growth = True
-config.gpu_options.per_process_gpu_memory_fraction = 0.9  # gpu_rate # TODO
+config.gpu_options.per_process_gpu_memory_fraction = 0.9  # gpu_rate
 tf.executing_eagerly()
 graph = tf.Graph()
 graph.as_default()
@@ -56,19 +53,16 @@ def encodeData(data_generator, model):
 	all_feats = []
 
 	#nbatches = len(data_generator) #todo
-	nbatches=1 ##medir TIEMPO y ENERGÍA #todo
+	nbatches=1 #measure time and energy #todo
 
 
 	for bix in range(nbatches):
 		data, labels, videoId, _ = data_generator.__getitemvideoid__(bix)
 		#feats = model.encode(data)
 
-		###PRUEBA FEATURES
-		##Para medir modelos grandes en la xavier nano
-
 		total_energy = 0.0
 		time = 0.0
-		print("Empezando a medir")
+		print("Starting to measure")
 		for i in range(20):
 
 			descriptor_measurer_GPU = EnergyMeter("xavier", 10, 'GPU', '/tmp/', 'descriptor.txt', 0) #todo 10 original
@@ -76,7 +70,7 @@ def encodeData(data_generator, model):
 			descriptor_measurer_GPU.start_measuring()
 			feats = model.encode(data)
 			# feats = model.encode(np.expand_dims(data, axis=0))
-			#	feats = model.encode(np.expand_dims(data[0], axis=0)) ##data modificado 1 muestra #todo
+			#	feats = model.encode(np.expand_dims(data[0], axis=0)) #modified data 1 sample #todo
 			descriptor_measurer_GPU.stop_measuring()
 
 			total_energy = total_energy + descriptor_measurer_GPU.total_energy
@@ -155,10 +149,10 @@ def evalGaitNet(datadir="matimdbtum_gaid_N150_of25_60x60_lite", nclasses=155, in
 	experdir, filename = os.path.split(initnet)
 	model = SingleGaitModel(experdir)
 
-	##Modelos originales
+	# Original models
 	model.load(initnet)
 
-	##Modelos 3dto2d
+	# Models 3dto2d
 	'''momentum = 0.9
 	lr = 0.01
 	optimfun = optimizers.SGD(lr=lr, momentum=momentum)
@@ -170,7 +164,7 @@ def evalGaitNet(datadir="matimdbtum_gaid_N150_of25_60x60_lite", nclasses=155, in
 
 	model.model.load_weights(initnet)
 	model.model_encode = tf.keras.Model(model.model.input, model.model.layers[-1].input)
-	#model.model.save("/home/pruiz/3dto2d.h5")'''
+	#model.model.save("/path/3dto2d.h5")'''
 	# ---------------------------------------
 	# Prepare data
 	# ---------------------------------------

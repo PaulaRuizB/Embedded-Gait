@@ -32,7 +32,7 @@ config = tf.compat.v1.ConfigProto()
 
 # Don't pre-allocate memory; allocate as-needed
 config.gpu_options.allow_growth = True
-config.gpu_options.per_process_gpu_memory_fraction = 0.9  # gpu_rate # TODO
+config.gpu_options.per_process_gpu_memory_fraction = 0.9  # gpu_rate
 tf.config.run_functions_eagerly(True)
 tf.executing_eagerly()
 graph = tf.Graph()
@@ -76,7 +76,7 @@ def encodeData(data_generator, model, model_version):
                 data2 = np.expand_dims(data2[0][int(len(data2[i]) / 2) - 15:int(len(data2[i]) / 2) - 15 + 30], axis=0)
                 feats = model.encode(data2, batch_size=5000)
 
-                ##Para medir
+                ##Measure time and energy
 
                 #total_energy = 0.0
                 #time = 0.0
@@ -85,7 +85,7 @@ def encodeData(data_generator, model, model_version):
                 #    descriptor_measurer_GPU.start()
                 #    descriptor_measurer_GPU.start_measuring()
 
-                #    ##1 muestra
+                #    ##1 sample
 
                 #    descriptor_measurer_GPU.stop_measuring()
 
@@ -666,8 +666,8 @@ if __name__ == "__main__":
         model.build(input_shape=input_shape, optimizer=optimfun, margin=margin, patchs_sizes=patch_size,
                     attention_mode=attention_mode, crossentropy_weight=cross_weight)
 
-        model.model = tf.keras.models.load_model(modelpath, custom_objects={"MatMul": MatMul, "tf": tf}, compile=False) #para meter un modelo recortado
-        #model.model.load_weights(modelpath) #para el modelo completo y medir tiempos
+        model.model = tf.keras.models.load_model(modelpath, custom_objects={"MatMul": MatMul, "tf": tf}, compile=False) #partial model
+        #model.model.load_weights(modelpath) # complete model
         model.model.summary()
         model.prepare_encode(encode_layer)
 

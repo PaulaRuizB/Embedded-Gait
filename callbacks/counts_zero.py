@@ -10,9 +10,7 @@ class countszeros(tf.keras.callbacks.Callback):
     def on_epoch_end(self, epoch, logs=None):
         w = 0
         zeros = 0
-        #print("He llegado a real target sparsity")
         self.model = strip_pruning(self.model)
-        #self.model.summary()
 
         for layer in range(len(self.model.layers)):
             if len(self.model.layers[layer].weights) > 0:

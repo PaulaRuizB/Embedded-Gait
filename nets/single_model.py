@@ -355,14 +355,6 @@ class SingleGaitModel():
 			# Add concat layer
 			main_branch = tf.keras.layers.Concatenate(axis=1)([output1, output2])
 
-			# # Add dense layer + dropout
-			# main_branch = tf.keras.layers.Dense(1024, name="dense")(main_branch)
-			# if dropout > 0:
-			# 	main_branch = tf.keras.layers.Dropout(dropout, name="drop")(main_branch)
-			# output = tf.keras.layers.Dense(512, name="code")(main_branch)
-			# if dropout > 0:
-			# 	output = tf.keras.layers.Dropout(dropout, name="drop_code")(output)
-
 			if lstm == 11 or lstm == 12 or lstm == 15:
 				main_branch = tf.keras.layers.Dropout(dropout, name="drop_concat")(main_branch)
 
@@ -379,7 +371,7 @@ class SingleGaitModel():
 			else:
 				main_branch = convBranch(input)
 
-		output = tf.keras.layers.Dense(ndense_units, name="code")(main_branch)
+		output = tf.keras.layers.Dense(ndense_units, name="code_1")(main_branch)
 
 		if loss_mode == 'crossentropy':
 			# Insert a classification layer here
@@ -693,7 +685,7 @@ class SingleGaitModel():
 				convBranch.add(tf.keras.layers.Dense(ndense_units, name="code"))
 		# Pruning
 		if pruning:
-			print("He llegado a pruning")
+			print("Pruning: ")
 			pruning_params = {
 				"pruning_schedule": pruning_schedule.ConstantSparsity(target_sparsity, begin_step=begin_step, frequency=frequency)}
 			convBranch = prune.prune_low_magnitude(convBranch, **pruning_params)
@@ -770,7 +762,7 @@ class SingleGaitModel():
 
 		# Pruning
 		if pruning:
-			print("He llegado a pruning")
+			print("Pruning")
 			pruning_params = {
 				"pruning_schedule": pruning_schedule.ConstantSparsity(target_sparsity, begin_step=begin_step, frequency=frequency)}
 			convBranch = prune.prune_low_magnitude(convBranch, **pruning_params)
@@ -844,7 +836,7 @@ class SingleGaitModel():
 
 		# Pruning
 		if pruning:
-			print("He llegado a pruning")
+			print("Pruning")
 			pruning_params = {
 				"pruning_schedule": pruning_schedule.ConstantSparsity(target_sparsity, begin_step=begin_step, frequency=frequency)}
 			convBranch = prune.prune_low_magnitude(convBranch, **pruning_params)

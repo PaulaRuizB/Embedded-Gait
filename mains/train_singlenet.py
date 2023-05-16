@@ -1,10 +1,6 @@
-# Trains a gait recognizer CNN
-# This version uses a custom DataGenerator
-
 import sys
 import os
 
-#os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 import numpy as np
 import tensorflow as tf
 
@@ -21,7 +17,6 @@ else:
 homedir = expanduser("~")
 sys.path.insert(0, homedir + "/gaitmultimodal")
 sys.path.insert(0, homedir + "/gaitmultimodal/mains")
-#sys.path.insert(0, homedir + "/gaitmultimodal/nets")
 
 # --------------------------------
 
@@ -29,9 +24,8 @@ theSEED = 232323
 tf.random.set_seed(theSEED)
 config = tf.compat.v1.ConfigProto()
 
-# Don't pre-allocate memory; allocate as-needed
 config.gpu_options.allow_growth = True
-config.gpu_options.per_process_gpu_memory_fraction = 0.9  # gpu_rate # TODO
+config.gpu_options.per_process_gpu_memory_fraction = 0.9  # gpu_rate
 
 tf.executing_eagerly()
 graph = tf.Graph()
@@ -165,14 +159,13 @@ def trainGaitNet(datadir="matimdbtum_gaid_N150_of25_60x60_lite", experfix="of",
 		os.makedirs(experdir)
 
 	#################Structural Pruning#################
-	####NOTAS:
-	# 1. Tener en cuenta el parámetro de eliminación de filtros
-	# 2. Si el modelo es 2D hay que cambiar el nombre de la última capa densa antes de romper la seq, más abajo. Linea 384 code_1
-	# 3. Si el modelo es de 150 va sin la última capa densa para el knn y si es el de 155 sí hay que ponerla (línea single 392)
+	####NOTES: Search #TODO
+	# 1. Take into account the percentile to remove filters (1st todo).
+	# 2. If 2D model, change the name of last dense layer before break the sequence (2nd #todo (code_1)).
+	# 3. If model with 150 classes, remove last dense layer for KNN. If 155 classes, let last dense layer.
 
 	if pstruc:
 		model = SingleGaitModel(experdir)
-		#Carga el modelo del último state
 		if os.path.exists(os.path.join(experdir, 'model-without-last-layer.hdf5')):
 			previous_model = os.path.join(experdir, 'model-without-last-layer.hdf5')
 		else:
@@ -186,10 +179,9 @@ def trainGaitNet(datadir="matimdbtum_gaid_N150_of25_60x60_lite", experfix="of",
 		model.load(previous_model)
 		model.model.summary()
 
-		######Crear modelo nuevo
 		print("New model will be created")
 		initnet = ""
-		experdir_estruc = '/home/pruiz/experiments_gait_multimodal/pestruc'
+		experdir_estruc = '/path/pestruc'
 		model_new = SingleGaitModelDesen(experdir_estruc)
 		model_new.build_or_load(input_shape, number_convolutional_layers, filters_size, filters_numbers, strides,
 							ndense_units, weight_decay, dropout, optimizer=optimfun, nclasses=nclasses,
@@ -197,9 +189,9 @@ def trainGaitNet(datadir="matimdbtum_gaid_N150_of25_60x60_lite", experfix="of",
 							model_version=model_version, pruning=pruning, frequency=frequency,
 							begin_step=begin_step, target_sparsity=target_sparsity, from3dto2d=from3dto2d, batchsize=batchsize)
 
-
-		#PARA LA 2D HAY QUE CAMBIAR EL NOMBRE DE LA ÚLTIMA CAPA DENSA y en single model línea 388 aprox, densa code_1
-		#model.model.layers[2]._init_set_name("code_1")
+		# If 2D model, change the name of last dense layer before break the sequence
+		# In single model change line 374, dense name --> code_1 #TODO
+		#model.model.layers[2]._init_set_name("code_1") #TODO
 
 		model_new.model.summary()
 
@@ -213,17 +205,17 @@ def trainGaitNet(datadir="matimdbtum_gaid_N150_of25_60x60_lite", experfix="of",
 				if model_new.model.layers[i].name == model.model.layers[j].name:
 					model_new.model.layers[i].set_weights(model.model.layers[j].get_weights())
 
-		#ruta = experdir + '/model_desenrollado.h5'
-		#model_new.model.save(ruta)
-		#print("MODELO DESENROLLADO GUARDADO")
+		#path_save = experdir + '/model_unrolled.h5'
+		#model_new.model.save(path_save)
+		#print("Unrolled model stored")
 
 		w_list = []
 		w_delete = []
 		w_delete_layer = []
 		layer_name = []
 
-		for i in range(len(model_new.model.layers)):  # recorre sequential
-			if 'keras.layers.Conv3D' in model_new.model.layers[i]._keras_api_names[0] or 'keras.layers.Conv2D' in model_new.model.layers[i]._keras_api_names[0]:  # coge las conv
+		for i in range(len(model_new.model.layers)):  # Sequential model
+			if 'keras.layers.Conv3D' in model_new.model.layers[i]._keras_api_names[0] or 'keras.layers.Conv2D' in model_new.model.layers[i]._keras_api_names[0]:  # take convolutional layers
 				w = model_new.model.layers[i].get_weights()[0]
 				w_list.append(w)
 				layer_name.append(model_new.model.layers[i].name)
@@ -236,16 +228,15 @@ def trainGaitNet(datadir="matimdbtum_gaid_N150_of25_60x60_lite", experfix="of",
 			else:
 				num_filters = len(weight[0, 0, 0, 0, :])
 
-			# Cálculo norma L1 de cada filtro de peso y se almacena en un diccionario
+			# L1-norm of every filter and save in a dictionary
 			for j in range(num_filters):
 				if not use3D:
 					w_s = np.sum(abs(weight[:, :, :, j]))
 
 				else:
 					w_s = np.sum(abs(weight[:, :, :, :, j]))
-				#filt = 'filt_{}'.format(j)
 				weight_dict[j] = w_s
-				param = 29.4#TODO
+				param = 29.4 #TODO
 				if w_s < param:
 					w_delete_layer.append(j)
 
@@ -254,7 +245,7 @@ def trainGaitNet(datadir="matimdbtum_gaid_N150_of25_60x60_lite", experfix="of",
 			w_delete.append(w_delete_layer)
 			w_delete_layer = []
 
-			# Se muestran los filtros por su valor L1 ascendente
+			# Filters in ascending L1 value
 			weights_dict_sort = sorted(weight_dict.items(), key=lambda k: k[1])
 			print("L1 norm conv layer {}\n".format(i + 1), weights_dict_sort)
 
@@ -264,7 +255,7 @@ def trainGaitNet(datadir="matimdbtum_gaid_N150_of25_60x60_lite", experfix="of",
 		model_filters = model_new.model
 
 
-		for i in range(len(model_filters.layers)):  # recorre sequential
+		for i in range(len(model_filters.layers)):   # Sequential model
 			if model_filters.layers[i].name in layer_name:
 				if w_delete[contador].shape[0] > 0:
 					model_filters = delete_channels(model_filters, model_filters.layers[i], w_delete[contador])
@@ -272,26 +263,13 @@ def trainGaitNet(datadir="matimdbtum_gaid_N150_of25_60x60_lite", experfix="of",
 				contador = contador + 1
 
 
-		print("{} Filtros eliminados".format(deleted))
+		print("{} Filters removed".format(deleted))
 		model_filters.summary()
 
-		ruta = experdir + '/model_without_{}_filters_{}.h5'.format(deleted, param)
-		model_filters.save(ruta)
-		print("MODELO CON {} MENOS FILTROS GUARDADO".format(deleted))
-
-
-		#surgeon = Surgeon(model_new)
-		#layer_1 = model_new.layers[0]
-		#surgeon.add_job('delete_layer', layer_1)
-		#surgeon.operate()
-		#surgeon.model.summary()
-
-
-		#model_completo = delete_layer(model_new, model_new.layers[2])
-		#modelo_completo = insert_layer(model_new, model.model.layers[2], model_new)
-		#modelo_completo.summary()
-
-		print("FIN")
+		path_save = experdir + '/model_without_{}_filters_{}.h5'.format(deleted, param)
+		model_filters.save(path_save)
+		print("Model with {} less filters saved".format(deleted))
+		print("END")
 
 	else:
 		# Prepare model
@@ -348,9 +326,6 @@ def trainGaitNet(datadir="matimdbtum_gaid_N150_of25_60x60_lite", experfix="of",
 
 			if pruning:
 				pruning_callbacks = tfmot.sparsity.keras.UpdatePruningStep()
-
-				# Contador pesos a cero
-				# modelo_nopruning = strip_pruning(model.model)
 				counts_callbacks = countszeros(model.model)
 
 				callbacks.append(pruning_callbacks)
