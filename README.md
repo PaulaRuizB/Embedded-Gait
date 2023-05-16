@@ -50,7 +50,7 @@ Note: to measure accuracy comment EnergyMeter in encodeData function and set nba
 
 * GaitSet:
 
-      python3 test_knn_gaitset_new.py --datadir=/home/GAIT_local/SSD_grande/CASIAB_tf_pre/ --model_version=gaitset_4dims --reshape_output --mod silhouette --bs 1 --knn 1 --nclasses 50 --allcameras --model /home/pruiz/gaitset_without_filters/model_gaitset_without_83_filters_10_14.95.h5 --cut --nframes=30
+      python3 test_knn_gaitset_new.py --datadir=/path_dataset/CASIAB_tf_pre/ --model_version=gaitset_4dims --reshape_output --mod silhouette --bs 1 --knn 1 --nclasses 50 --allcameras --model /path_experiments/model_gaitset_without_83_filters_10_14.95.h5 --cut --nframes=30
 
 ### Hardware optimizations: quantization, batch size and deep learning accelerators. Optimize models with TensorRT.
 Scripts folder :
