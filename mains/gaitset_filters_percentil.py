@@ -42,11 +42,11 @@ from kerassurgeon.operations import delete_channels, delete_layer, insert_layer,
 # 1. Take into account the percentile to remove filters
 # 2. Test: python3 test_knn_gaitset_new.py --datadir=/path/CASIAB/ --model_version=gaitset_4dims --reshape_output --mod silhouette --bs 1 --knn 1 --nclasses 50 --allcameras --model /path/model_gaitset_without_83_filters_10_14.95.h5 --cut --nframes=30
 
-netpath = "/home/pruiz/model-state-1300.hdf5"
+netpath = "/path/model-state-1300.hdf5"
 import tensorflow as tf
 from nets.gaitset_4dims import GaitSet as OurModel
 encode_layer = "encode"
-model = OurModel("/home/pruiz/")
+model = OurModel("/path/")
 input_shape = (None, 64, 44, 1)
 patch_size = 0
 optimfun = tf.keras.optimizers.SGD()

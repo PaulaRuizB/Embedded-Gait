@@ -468,7 +468,7 @@ if __name__ == "__main__":
                         help="Test with all cameras (only for casia)")
 
     parser.add_argument('--datadir', type=str, required=False,
-                        default=osp.join('/home/GAIT_local/SSD', 'TUM_GAID_tf'),
+                        default=osp.join('/path_dataset', 'TUM_GAID_tf'),
                         help="Full path to data directory")
 
     parser.add_argument('--model', type=str, required=True,

@@ -62,7 +62,7 @@ if __name__ == '__main__':
     else:
         model = tf.keras.models.load_model(model_path_gait,
                                            custom_objects={'mj_smoothL1': mj_smoothL1, 'MatMul': MatMul(), 'tf': tf},
-                                           compile=False)  #
+                                           compile=False)
         if name_model == '':
             head_path, name_model = os.path.split(model_path_gait)
             name_model = Path(name_model).stem

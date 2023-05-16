@@ -175,7 +175,7 @@ def trainGaitNet(datadir="matimdbtum_gaid_N150_of25_60x60_lite", experfix="of",
 
 		print("New model will be created")
 		initnet = ""
-		experdir_estruc = '/home/pruiz/experiments_gait_multimodal/pestruc'
+		experdir_estruc = '/path/pestruc'
 		model_new = SingleGaitModelDesen(experdir_estruc)
 		model_new.build_or_load(input_shape, number_convolutional_layers, filters_size, filters_numbers, strides,
 							ndense_units, weight_decay, dropout, optimizer=optimfun, nclasses=nclasses,
@@ -462,7 +462,7 @@ if __name__ == "__main__":
 	                    default=0.01,
 	                    help='Starting learning rate')
 	parser.add_argument('--datadir', type=str, required=False,
-	                    default=osp.join('/home/GAIT_local/SSD', 'TUM_GAID_tf'),
+	                    default=osp.join('/path_dataset', 'TUM_GAID_tf'),
 	                    help="Full path to data directory")
 	parser.add_argument('--experdir', type=str, required=True,
 	                    default=osp.join(homedir, 'experiments', 'tumgaid_multimodal'),

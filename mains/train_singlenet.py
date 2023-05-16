@@ -454,7 +454,7 @@ if __name__ == "__main__":
 	                    default=0.01,
 	                    help='Starting learning rate')
 	parser.add_argument('--datadir', type=str, required=False,
-	                    default=osp.join('/home/GAIT_local/SSD', 'TUM_GAID_tf'),
+	                    default=osp.join('/path_dataset', 'TUM_GAID_tf'),
 	                    help="Full path to data directory")
 	parser.add_argument('--experdir', type=str, required=True,
 	                    default=osp.join(homedir, 'experiments', 'tumgaid_multimodal'),

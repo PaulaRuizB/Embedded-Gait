@@ -1,7 +1,3 @@
-"""
-(c) MJMJ/2020
-"""
-
 import os
 import copy
 

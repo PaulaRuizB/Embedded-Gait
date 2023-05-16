@@ -29,7 +29,7 @@ class DataGeneratorGait(keras.utils.Sequence):
 
     def __init__(self, dataset_info, batch_size=128, mode='train', balanced_classes=True, labmap=[],
                  modality='silohuette',
-                 camera=None, datadir="/home/GAIT_local/TUM_GAID_tf/tfimdb_tum_gaid_N150_train_of25_60x60/",
+                 camera=None, datadir="/path_dataset/tfimdb_tum_gaid_N150_train_of25_60x60/",
                  augmentation=True,
                  keep_data=False, mirror=False, resize=False, max_frames=30, test_step=5, p=8, k=16, cut=False,
                  diffFrames=False,
@@ -633,9 +633,9 @@ class DataGeneratorGait(keras.utils.Sequence):
 if __name__ == "__main__":
     sess = tf.compat.v1.Session()
     with sess.as_default():
-        dataset_info = dd.io.load('/home/GAIT_local/TUM_GAID_tf/tfimdb_tum_gaid_N150_train_of25_60x60.h5')
+        dataset_info = dd.io.load('/path_dataset/tfimdb_tum_gaid_N150_train_of25_60x60.h5')
         dg = DataGeneratorGait(dataset_info, batch_size=20, mode='train', labmap=None, modality='silhouette',
-                               datadir='/home/GAIT_local/TUM_GAID_tf', camera=None)
+                               datadir='/path_dataset', camera=None)
 
     for e in range(0, len(dg)):
         X, Y = dg.__getitem__(e)

@@ -3,7 +3,7 @@ import time
 from queue import Queue
 
 class EnergyMeter(threading.Thread):
-	def __init__(self, device, sleep_time, mode, out_dir, filename, descartes):
+	def __init__(self, device, sleep_time, mode, out_dir, filename, discarded):
 		self.device = device
 		self.sleep_time = float(sleep_time / 1000.0)
 		self.mode = mode
@@ -16,7 +16,7 @@ class EnergyMeter(threading.Thread):
 		self.time = 0.0
 		self.steps = 0
 		self.sensors = dict()
-		self.descartes = descartes
+		self.discarded = discarded
 		if self.device == 'nano':
 			# Whole board
 			self.sensors['POM_5V_IN'] = open('/sys/bus/i2c/drivers/ina3221x/6-0040/iio:device0/in_current0_input', 'r')
@@ -72,7 +72,7 @@ class EnergyMeter(threading.Thread):
 				# self.queue.put(data)
 				# while (time.time() - t) < self.sleep_time:
 				# 	continue
-				if self.steps > self.descartes: #muestras descartadas
+				if self.steps > self.discarded: # Discarded samples
 					#t = time.time()
 					energy = int(self.sensors[self.mode].read().strip())
 					tim = time.time() - t
@@ -106,10 +106,9 @@ class EnergyMeter(threading.Thread):
 		self.executing = False
 		self.join()
 
-		self.total_energy = self.total_energy / (self.steps - self.descartes)
-		self.time = self.time / (self.steps - self.descartes)
+		self.total_energy = self.total_energy / (self.steps - self.discarded)
+		self.time = self.time / (self.steps - self.discarded)
 		#self.writer_thread.join()
-		#TODO PRUEBA
 		#self.sensors['GPU'].close()
 
 if __name__ == '__main__':

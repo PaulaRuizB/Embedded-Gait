@@ -389,8 +389,8 @@ class SingleGaitModelDesen():
 		if loss_mode == 'crossentropy':
 			# Insert a classification layer here
 			#main_branch = tf.keras.layers.Dense(nclasses, activation='softmax', kernel_initializer='he_uniform', name="probs")(output)
-			print("No añado capa probs")
-			##sin la última capa, no entrar al de abajo
+			print("Don't add probs layer")
+			#Without the last layer
 			#convBranch = tf.keras.layers.Dense(nclasses, activation='softmax', kernel_initializer='he_uniform', name="probs")(convBranch)
 
 			outputs.append(convBranch)
@@ -715,7 +715,7 @@ class SingleGaitModelDesen():
 				dense_2 = tf.keras.layers.Dense(ndense_units, name="code")(drop)
 		# Pruning
 		if pruning:
-			print("He llegado a pruning")
+			print("Pruning")
 			pruning_params = {
 				"pruning_schedule": pruning_schedule.ConstantSparsity(target_sparsity, begin_step=begin_step, frequency=frequency)}
 			convBranch = prune.prune_low_magnitude(convBranch, **pruning_params)
@@ -794,7 +794,7 @@ class SingleGaitModelDesen():
 
 		# Pruning
 		'''if pruning:
-			print("He llegado a pruning")
+			print("Pruning")
 			pruning_params = {
 				"pruning_schedule": pruning_schedule.ConstantSparsity(target_sparsity, begin_step=begin_step, frequency=frequency)}
 			convBranch = prune.prune_low_magnitude(convBranch, **pruning_params)'''
