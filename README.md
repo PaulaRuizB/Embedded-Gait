@@ -86,6 +86,12 @@ Fine-tuning (mains folder):
 
     python ../mains/train_singlenet.py --model_version bmvc --experdir /path_experiments/ --use3d --prefix ft_pruning_10_bueno --nclasses 150 --epochs 100 --extraepochs 10 --initnet /path_experiments/of_baseline_bmvc_N150_datagen_of3D_opSGD_bs150_lr0.010000_dr0.40/model_without_198_filters_10_28.22.h5 --ftpruning --nofreeze
 
+### Energy consumption during feature extraction (FE).
+
+As you can see in tensorrt folder, we have modify the file sampleInference.cpp in our Nano device:
+    
+    /usr/src/tensorrt/samples/common/
+
 ### Our [paper](https://www.sciencedirect.com/science/article/pii/S2210537922001457)
 
 If you find this code useful in your research, please consider citing:
