@@ -18,8 +18,8 @@ Python 3.8 and requirements GaitSet_requirements.txt into venv_requirements fold
  Search #todo in train_singlenet.py (baseline experiment) and train_singlenet_percentil.py (experiments with pruning).
 
  * Modify percentile to remove filters. 
- * In pruning mode: if you are using 2D-CNN, change the name of last dense layer before break the sequence (line 189)
- * If you are training or using 2D-CNN, change last dense layer name in single_model.py line 374 to "code_1"
+ * In pruning mode: if you are using 2D-CNN, change the name of last dense layer before break the sequence (line 189).
+ * If you are training or using 2D-CNN, change last dense layer name in single_model.py line 374 to "code_1".
  * If you are training a model with 150 classes, remove last dense layer for KNN. If you are training 155 classes, let last dense layer.
 
 ### Baseline Models
