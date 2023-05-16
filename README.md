@@ -30,11 +30,11 @@ Models folder:
 ### Train Models:
 * 2D-CNN: 
 
-      python ../mains/train_singlenet.py --model_version bmvc --experdir /home/pruiz/experiments_gait_multimodal/ --prefix prueba --nclasses 150 --epochs 150 --extraepochs 50
+      python ../mains/train_singlenet.py --model_version bmvc --experdir /path_experiments/ --prefix prueba --nclasses 150 --epochs 150 --extraepochs 50
 
 * 3D-CNN:
 
-      python ../mains/train_singlenet.py --model_version bmvc --experdir /home/pruiz/experiments_gait_multimodal/ --prefix of_baseline --nclasses 150 --use3d --epochs 150 --extraepochs 50
+      python ../mains/train_singlenet.py --model_version bmvc --experdir /path_experiments/ --prefix of_baseline --nclasses 150 --use3d --epochs 150 --extraepochs 50
 
 ### Test Models KNN:
 
@@ -42,11 +42,11 @@ Note: to measure accuracy comment EnergyMeter in encodeData function and set nba
 
 * 2D-CNN: 
 
-      python ../mains/test_singlenet_knn.py --nclasses 155 --knn 7 --model /home/pruiz/experiments_gait_multimodal/of_baseline_bmvc_N150_datagen_of_opSGD_bs150_lr0.010000_dr0.40/model-final.hdf5
+      python ../mains/test_singlenet_knn.py --nclasses 155 --knn 7 --model /path_experiments/of_baseline_bmvc_N150_datagen_of_opSGD_bs150_lr0.010000_dr0.40/model-final.hdf5
 
 * 3D-CNN:
     
-      python ../mains/test_singlenet_knn.py --use3d --nclasses 155 --knn 7 --model /home/pruiz/experiments_gait_multimodal/of_baseline_bmvc_N150_datagen_of3D_opSGD_bs150_lr0.010000_dr0.40/model-final.hdf5
+      python ../mains/test_singlenet_knn.py --use3d --nclasses 155 --knn 7 --model /path_experiments/of_baseline_bmvc_N150_datagen_of3D_opSGD_bs150_lr0.010000_dr0.40/model-final.hdf5
 
 * GaitSet:
 
@@ -65,11 +65,11 @@ Important: modify desired percentile value in code train_singlenet_percentil.py
 
 2D-CNN:
 
-    python ../mains/train_singlenet_percentil.py --model_version bmvc --experdir /home/pruiz/experiments_gait_multimodal/ --prefix of_baseline --nclasses 150 --epochs 1 --extraepochs 50 --pstruc
+    python ../mains/train_singlenet_percentil.py --model_version bmvc --experdir /path_experiments/ --prefix of_baseline --nclasses 150 --epochs 1 --extraepochs 50 --pstruc
   
 3D-CNN: 
 
-    python ../mains/train_singlenet_percentil.py --model_version bmvc --experdir /home/pruiz/experiments_gait_multimodal/ --prefix of_baseline --nclasses 150 --use3d --epochs 1 --extraepochs 50 --pstruc
+    python ../mains/train_singlenet_percentil.py --model_version bmvc --experdir /path_experiments/ --prefix of_baseline --nclasses 150 --use3d --epochs 1 --extraepochs 50 --pstruc
 
 * GaitSet: gaitset_filters_percentil.py
 
@@ -80,11 +80,11 @@ Fine-tuning (mains folder):
 
 2D-CNN:
 
-    python ../mains/train_singlenet.py --model_version bmvc --experdir /home/pruiz/experiments_gait_multimodal/ --prefix ft_pruning_10 --nclasses 150 --epochs 25 --extraepochs 5 --initnet /home/pruiz/experiments_gait_multimodal/of_baseline_bmvc_N150_datagen_of_opSGD_bs150_lr0.010000_dr0.40/model_without_132_filters_10_27.85.h5 --ftpruning --nofreeze
+    python ../mains/train_singlenet.py --model_version bmvc --experdir /path_experiments/ --prefix ft_pruning_10 --nclasses 150 --epochs 25 --extraepochs 5 --initnet /path_experiments/of_baseline_bmvc_N150_datagen_of_opSGD_bs150_lr0.010000_dr0.40/model_without_132_filters_10_27.85.h5 --ftpruning --nofreeze
 
 3D-CNN:
 
-    python ../mains/train_singlenet.py --model_version bmvc --experdir /home/pruiz/experiments_gait_multimodal/ --use3d --prefix ft_pruning_10_bueno --nclasses 150 --epochs 100 --extraepochs 10 --initnet /home/pruiz/experiments_gait_multimodal/of_baseline_bmvc_N150_datagen_of3D_opSGD_bs150_lr0.010000_dr0.40/model_without_198_filters_10_28.22.h5 --ftpruning --nofreeze
+    python ../mains/train_singlenet.py --model_version bmvc --experdir /path_experiments/ --use3d --prefix ft_pruning_10_bueno --nclasses 150 --epochs 100 --extraepochs 10 --initnet /path_experiments/of_baseline_bmvc_N150_datagen_of3D_opSGD_bs150_lr0.010000_dr0.40/model_without_198_filters_10_28.22.h5 --ftpruning --nofreeze
 
 ### Our [paper](https://www.sciencedirect.com/science/article/pii/S2210537922001457)
 
