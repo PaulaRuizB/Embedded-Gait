@@ -61,7 +61,7 @@ Scripts folder :
 Remove filters (mains folder):
 * 2D-CNN and 3D-CNN: train_singlenet_percentil.py
  
-Important: modify desired percentil value in code train_singlenet_percentil.py
+Important: modify desired percentile value in code train_singlenet_percentil.py
 
 2D-CNN:
 
@@ -73,7 +73,7 @@ Important: modify desired percentil value in code train_singlenet_percentil.py
 
 * GaitSet: gaitset_filters_percentil.py
 
-Important: modify desired percentil value in code gaitset_filters_percentil.py
+Important: modify desired percentile value in code gaitset_filters_percentil.py
 
 Fine-tuning (mains folder):
 * 2D-CNN and 3D-CNN: train_singlenet.py
